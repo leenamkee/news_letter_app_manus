@@ -105,7 +105,7 @@ def generate_topics_node(state: AgentState) -> AgentState:
 def generate_content_node(state: AgentState) -> AgentState:
     """특정 주제에 대한 뉴스레터 내용을 생성하는 노드"""
     
-    OpenAI 모델 초기화
+    # OpenAI 모델 초기화
     llm = ChatOpenAI(
         model="gpt-4o",
         temperature=0.7,
