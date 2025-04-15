@@ -1,0 +1,10 @@
+streamlit
+streamlit_nested_layout
+langchain
+openai
+google-api-python-client
+langgraph
+requests
+beautifulsoup4
+feedparser
+langchain_openai
