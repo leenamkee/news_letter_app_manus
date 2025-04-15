@@ -81,18 +81,18 @@ def setup_sidebar():
             use_container_width=True
         )
         
-        # Buy me a coffee 링크
-        st.markdown("---")
+        # # Buy me a coffee 링크
+        # st.markdown("---")
         
-        # 커피 이미지 추가
-        coffee_html = """
-        <div style='text-align: center;'>
-            <a href='https://www.buymeacoffee.com' target='_blank'>
-                <img src='https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png' alt='Buy Me A Coffee' style='height: 40px; width: 150px;'>
-            </a>
-        </div>
-        """
-        st.markdown(coffee_html, unsafe_allow_html=True)
+        # # 커피 이미지 추가
+        # coffee_html = """
+        # <div style='text-align: center;'>
+        #     <a href='https://www.buymeacoffee.com' target='_blank'>
+        #         <img src='https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png' alt='Buy Me A Coffee' style='height: 40px; width: 150px;'>
+        #     </a>
+        # </div>
+        # """
+        # st.markdown(coffee_html, unsafe_allow_html=True)
         
         # 앱 정보
         st.markdown("---")
