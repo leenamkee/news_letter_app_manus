@@ -18,7 +18,7 @@ class AgentState(TypedDict):
 def generate_topics_node(state: AgentState) -> AgentState:
     """뉴스 기사를 기반으로 뉴스레터 주제와 하위 주제를 생성하는 노드"""
     
-    OpenAI 모델 초기화
+    # OpenAI 모델 초기화
     llm = ChatOpenAI(
         model="gpt-4o",
         temperature=0.7,
