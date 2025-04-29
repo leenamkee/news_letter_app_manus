@@ -150,7 +150,7 @@ def main():
             if newsletter_content:
                 st.subheader("4️⃣ 최종 뉴스레터")
                 
-		# title = newsletter_topics['title']
+		title = newsletter_topics['title']
                 final_newsletter = f"# {newsletter_topics['title']}\n\n"
                 
                 for topic, content in newsletter_content.items():
