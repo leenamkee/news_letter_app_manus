@@ -150,10 +150,15 @@ def main():
             if newsletter_content:
                 st.subheader("4️⃣ 최종 뉴스레터")
 
-				final_newsletter = f"# {newsletter_topics['title']}\n\n"
+				# final_newsletter = f"# {newsletter_topics['title']}\n\n"
+				# title = newsletter_topics['title']
+
+				
+                final_newsletter = f"# {newsletter_topics['title']}\n\n"
 				title = newsletter_topics['title']
-                
-                for topic, content in newsletter_content.items():
+
+				
+				for topic, content in newsletter_content.items():
                     final_newsletter += f"## {topic}\n\n{content['text']}\n\n"
                     final_newsletter += "**참고 기사:**\n"
                     for ref in content['references']:
