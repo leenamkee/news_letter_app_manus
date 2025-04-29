@@ -34,25 +34,33 @@ def setup_sidebar():
         )
         
         # 네이버 API 키 입력 (조건부 표시)
-        if search_method == "네이버 API":
-            with st.expander("네이버 API 설정", expanded=False):
-                naver_client_id = st.text_input("Client ID", type="password")
-                naver_client_secret = st.text_input("Client Secret", type="password")
-                st.caption("네이버 개발자 센터에서 애플리케이션을 등록하여 API 키를 발급받을 수 있습니다.")
+        # if search_method == "네이버 API":
+        #     with st.expander("네이버 API 설정", expanded=False):
+        #         naver_client_id = st.text_input(
+        #             "Client ID",
+        #             type="password",
+        #             help=""
+        #         )
+        #         naver_client_secret = st.text_input(
+        #             "Client Secret",
+        #             type="password",
+        #             help=""
+        #         )
+        #         st.caption("네이버 개발자 센터에서 애플리케이션을 등록하여 API 키를 발급받을 수 있습니다.")
         
-        # OpenAI API 키 입력
-        st.subheader("3️⃣ OpenAI API 키 입력")
-        openai_api_key = st.text_input(
-            "OpenAI API 키",
-            type="password",
-            help="OpenAI API 키가 없다면 https://platform.openai.com에서 발급받을 수 있습니다."
-        )
+        # # OpenAI API 키 입력
+        # st.subheader("3️⃣ OpenAI API 키 입력")
+        # openai_api_key = st.text_input(
+        #     "OpenAI API 키",
+        #     type="password",
+        #     help="OpenAI API 키가 없다면 https://platform.openai.com에서 발급받을 수 있습니다."
+        # )
         
         # 고급 설정
         with st.expander("고급 설정", expanded=False):
             model = st.selectbox(
                 "OpenAI 모델",
-                options=["gpt-4o", "gpt-4o-mini"],
+                options=["gpt-4o-mini", "gpt-4o"],
                 index=0
             )
             
@@ -98,14 +106,19 @@ def setup_sidebar():
         st.markdown("---")
         st.caption("© 2025 AI 뉴스레터 생성기 | Powered by Streamlit & OpenAI")
     
+    # API 키 처리: 사용자 입력이 있으면 사용하고, 없으면 secrets.toml에서 가져옴
+    final_openai_api_key = openai_api_key if openai_api_key else st.secrets.get("OPENAI_API_KEY", "")
+    final_naver_client_id = naver_client_id if 'naver_client_id' in locals() and naver_client_id else st.secrets.get("NAVER_CLIENT_ID", "")
+    final_naver_client_secret = naver_client_secret if 'naver_client_secret' in locals() and naver_client_secret else st.secrets.get("NAVER_CLIENT_SECRET", "")
+    
     return {
         "keywords": keywords,
         "search_method": search_method,
-        "openai_api_key": openai_api_key,
+        "openai_api_key": final_openai_api_key,
         "generate_button": generate_button,
         "model": model if 'model' in locals() else "gpt-4o",
         "temperature": temperature if 'temperature' in locals() else 0.7,
         "max_articles": max_articles if 'max_articles' in locals() else 15,
-        "naver_client_id": naver_client_id if 'naver_client_id' in locals() else None,
-        "naver_client_secret": naver_client_secret if 'naver_client_secret' in locals() else None
+        "naver_client_id": final_naver_client_id,
+        "naver_client_secret": final_naver_client_secret
     }
