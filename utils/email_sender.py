@@ -25,7 +25,7 @@ def send_newsletter_email(recipient_email: str, newsletter_content: str, subject
         sender_password = st.secrets.get("GMAIL_APP_PASSWORD")
         
         if not sender_email or not sender_password:
-            raise ValueError("이메일 설정이 secrets.toml에 없습니다.")
+            raise ValueError("이메일 설정이 없습니다.")
         
         # 이메일 메시지 생성
         msg = MIMEMultipart('alternative')
