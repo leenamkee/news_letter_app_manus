@@ -2,9 +2,15 @@ import streamlit as st
 import streamlit_nested_layout
 from utils.sidebar import setup_sidebar
 from utils.news_display import search_news, display_news_articles
+from utils.email_sender import send_newsletter_email
 from agents.newsletter_agent import run_newsletter_agent
 
 import os, requests
+import logging
+
+# 로깅 설정
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 # os.environ['REQUESTS_CA_BUNDLE'] = '/etc/ssl/certs/ca-certificates.crt'
 # os.environ['WDM_SSL_VERIFY'] = '0' #Disable SSL
@@ -34,14 +40,36 @@ st.set_page_config(
     layout="wide"
 )
 
-sidebar_config = {'generate_button':True,
-                  'keywords':'인공지능',
-                  'openai_api_key':"EMPTY",
-                  'search_method':'naver',
-                  'naver_client_id':'GNSL5hgSbFkRLpq6LsR6',
-                  'naver_client_secret':'uWBG4kF_0n',
-                  'max_articles':30}
+sidebar_config = {
+    'generate_button': True,
+    'keywords': '인공지능',
+    'openai_api_key': st.secrets.get("OPENAI_API_KEY", "EMPTY"),
+    'search_method': 'naver',
+    'naver_client_id': st.secrets.get("NAVER_CLIENT_ID", ""),
+    'naver_client_secret': st.secrets.get("NAVER_CLIENT_SECRET", ""),
+    'max_articles': 30,
+    'recipient_email': ''  # 이메일 수신자 추가
+}
 
+def convert_markdown_to_html(markdown_content: str) -> str:
+    """마크다운 형식의 뉴스레터를 HTML 형식으로 변환"""
+    html_content = f"""
+    <html>
+    <head>
+        <style>
+            body {{ font-family: Arial, sans-serif; line-height: 1.6; }}
+            h1 {{ color: #2c3e50; }}
+            h2 {{ color: #34495e; }}
+            a {{ color: #3498db; }}
+            .reference {{ margin-top: 20px; padding-top: 10px; border-top: 1px solid #eee; }}
+        </style>
+    </head>
+    <body>
+        {markdown_content.replace('#', '<h1>').replace('##', '<h2>')}
+    </body>
+    </html>
+    """
+    return html_content
 
 def main():
     # 앱 제목
@@ -65,11 +93,13 @@ def main():
             
             if news_articles:
                 st.success(f"{len(news_articles)}개의 뉴스 기사를 찾았습니다.")
+                logger.debug(f"Found {len(news_articles)} news articles")
                 
                 # 뉴스 목록 표시
                 display_news_articles(news_articles)
             else:
                 st.error("뉴스 기사를 찾을 수 없습니다. 다른 키워드를 시도해보세요.")
+                logger.error("No news articles found")
                 return
         
         # LLM을 통한 뉴스레터 생성
@@ -84,6 +114,7 @@ def main():
                 
                 if newsletter_topics:
                     st.success("뉴스레터 주제가 선정되었습니다.")
+                    logger.debug(f"Newsletter topics: {newsletter_topics}")
                     
                     # 선정된 주제 표시
                     st.subheader("📌 선정된 뉴스레터 주제")
@@ -119,6 +150,7 @@ def main():
             if newsletter_content:
                 st.subheader("4️⃣ 최종 뉴스레터")
                 
+				title = newsletter_topics['title']
                 final_newsletter = f"# {newsletter_topics['title']}\n\n"
                 
                 for topic, content in newsletter_content.items():
@@ -129,6 +161,30 @@ def main():
                     final_newsletter += "\n---\n\n"
                 
                 st.markdown(final_newsletter)
+                
+                # 이메일 발송 섹션
+                st.subheader("5️⃣ 이메일 발송")
+                recipient_email = st.text_input("수신자 이메일 주소를 입력하세요:", sidebar_config.get("recipient_email", ""))
+                
+                if st.button("뉴스레터 이메일 발송"):
+                    if recipient_email:
+                        with st.spinner("이메일 발송 중..."):
+                            # 마크다운을 HTML로 변환
+                            html_content = convert_markdown_to_html(final_newsletter)
+                            
+                            # 이메일 발송
+                            if send_newsletter_email(
+                                recipient_email=recipient_email,
+                                newsletter_content=html_content,
+                                subject=title
+                            ):
+                                st.success("뉴스레터가 성공적으로 발송되었습니다!")
+                                logger.info(f"Newsletter sent to {recipient_email}")
+                            else:
+                                st.error("이메일 발송에 실패했습니다. 이메일 설정을 확인해주세요.")
+                                logger.error("Failed to send newsletter email")
+                    else:
+                        st.error("수신자 이메일 주소를 입력해주세요.")
                 
                 # 다운로드 버튼
                 st.download_button(
