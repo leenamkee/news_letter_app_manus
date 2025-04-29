@@ -175,7 +175,7 @@ def convert_markdown_to_html(markdown_content: str) -> str:
                             if send_newsletter_email(
                                 recipient_email=recipient_email,
                                 newsletter_content=html_content,
-                                subject=title
+                                subject=newsletter_topics['title']
                             ):
                                 st.success("뉴스레터가 성공적으로 발송되었습니다!")
                                 logger.info(f"Newsletter sent to {recipient_email}")
