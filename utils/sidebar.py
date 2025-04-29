@@ -33,7 +33,7 @@ def setup_sidebar():
             help="구글 RSS는 API 키가 필요 없지만, 네이버 API는 개발자 계정이 필요합니다."
         )
         
-        네이버 API 키 입력 (조건부 표시)
+        # 네이버 API 키 입력 (조건부 표시)
         if search_method == "네이버 API":
             with st.expander("네이버 API 설정", expanded=False):
                 naver_client_id = st.text_input(
