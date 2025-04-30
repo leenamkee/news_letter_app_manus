@@ -163,29 +163,29 @@ def main():
 
                 st.markdown(final_newsletter)
 
-                # 이메일 발송 섹션
-                st.subheader("5️⃣ 이메일 발송")
-                recipient_email = st.text_input("수신자 이메일 주소를 입력하세요:", sidebar_config.get("recipient_email", ""))
+                # # 이메일 발송 섹션
+                # st.subheader("5️⃣ 이메일 발송")
+                # recipient_email = st.text_input("수신자 이메일 주소를 입력하세요:", sidebar_config.get("recipient_email", ""))
     
-                if st.button("뉴스레터 이메일 발송"):
-                    if recipient_email:
-                        with st.spinner("이메일 발송 중..."):
-                            # 마크다운을 HTML로 변환
-                            html_content = convert_markdown_to_html(final_newsletter)
+                # if st.button("뉴스레터 이메일 발송"):
+                #     if recipient_email:
+                #         with st.spinner("이메일 발송 중..."):
+                #             # 마크다운을 HTML로 변환
+                #             html_content = convert_markdown_to_html(final_newsletter)
     
-                            # 이메일 발송
-                            if send_newsletter_email(
-                                    recipient_email=recipient_email,
-                                    newsletter_content=html_content,
-                                    subject=title
-                            ):
-                                st.success("뉴스레터가 성공적으로 발송되었습니다!")
-                                logger.info(f"Newsletter sent to {recipient_email}")
-                            else:
-                                st.error("이메일 발송에 실패했습니다. 이메일 설정을 확인해주세요.")
-                                logger.error("Failed to send newsletter email")
-                    else:
-                        st.error("수신자 이메일 주소를 입력해주세요.")
+                #             # 이메일 발송
+                #             if send_newsletter_email(
+                #                     recipient_email=recipient_email,
+                #                     newsletter_content=html_content,
+                #                     subject=title
+                #             ):
+                #                 st.success("뉴스레터가 성공적으로 발송되었습니다!")
+                #                 logger.info(f"Newsletter sent to {recipient_email}")
+                #             else:
+                #                 st.error("이메일 발송에 실패했습니다. 이메일 설정을 확인해주세요.")
+                #                 logger.error("Failed to send newsletter email")
+                #     else:
+                #         st.error("수신자 이메일 주소를 입력해주세요.")
 
                 # 다운로드 버튼
                 st.download_button(
