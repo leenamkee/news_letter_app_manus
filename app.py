@@ -89,7 +89,8 @@ def main():
                 search_method=sidebar_config["search_method"],
                 naver_client_id=sidebar_config.get("naver_client_id"),
                 naver_client_secret=sidebar_config.get("naver_client_secret"),
-                max_articles=sidebar_config.get("max_articles", 15)
+                max_articles=sidebar_config.get("max_articles", 15),
+                freshness_days=sidebar_config.get("freshness_days", 7)
             )
 
             if news_articles:

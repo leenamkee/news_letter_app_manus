@@ -80,6 +80,15 @@ def setup_sidebar():
                 value=15,
                 step=1
             )
+
+            freshness_days = st.number_input(
+                "뉴스 신선도 (일)",
+                min_value=1,
+                max_value=30,
+                value=7,
+                step=1,
+                help="뉴스를 검색할 최근 기간(일)을 설정합니다. 예를 들어, 7로 설정하면 최근 7일간의 뉴스를 검색합니다."
+            )
         
         # 뉴스레터 생성 버튼
         st.markdown("---")
@@ -119,6 +128,7 @@ def setup_sidebar():
         "model": model if 'model' in locals() else "gpt-4o",
         "temperature": temperature if 'temperature' in locals() else 0.7,
         "max_articles": max_articles if 'max_articles' in locals() else 15,
+        "freshness_days": freshness_days if 'freshness_days' in locals() else 7,
         "naver_client_id": final_naver_client_id,
         "naver_client_secret": final_naver_client_secret
     }
