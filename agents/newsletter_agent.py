@@ -20,7 +20,7 @@ def generate_topics_node(state: AgentState) -> AgentState:
     
     # OpenAI 모델 초기화
     llm = ChatOpenAI(
-        model="gpt-4o",
+        model="gpt-4o-mini",
         temperature=0.7,
         api_key=state["openai_api_key"]
     )
@@ -108,7 +108,7 @@ def generate_content_node(state: AgentState) -> AgentState:
     
     # OpenAI 모델 초기화
     llm = ChatOpenAI(
-        model="gpt-4o",
+        model="gpt-4o-mini",
         temperature=0.7,
         api_key=state["openai_api_key"]
     )
