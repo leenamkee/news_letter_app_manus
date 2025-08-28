@@ -60,7 +60,7 @@ def setup_sidebar():
         with st.expander("고급 설정", expanded=False):
             model = st.selectbox(
                 "OpenAI 모델",
-                options=["HCX-005","gpt-4o-mini", "gpt-4o"],
+                options=["gpt-4o-mini", "gpt-4o"],
                 index=0
             )
             
@@ -116,7 +116,7 @@ def setup_sidebar():
         "search_method": search_method,
         "openai_api_key": final_openai_api_key,
         "generate_button": generate_button,
-        "model": model if 'model' in locals() else "HCX-005",
+        "model": model if 'model' in locals() else "gpt-4o-mini",
         "temperature": temperature if 'temperature' in locals() else 0.7,
         "max_articles": max_articles if 'max_articles' in locals() else 15,
         "naver_client_id": final_naver_client_id,
